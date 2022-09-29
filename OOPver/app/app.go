@@ -3,15 +3,23 @@ package app
 import (
 	"fmt"
 	"strconv"
+
+	"github.com/gosuri/uilive"
+	. "github.com/logrusorgru/aurora"
 )
 
 func RunGame() {
 
 	selection := ""
 
-	fmt.Printf("게임을 시작하시겠습니까? (1.Yes/2.No)  ")
+	fmt.Printf("%s", Bold("게임을 시작하시겠습니까? (1.Yes/2.No)  "))
 	fmt.Scanln(&selection)
 	fmt.Println(" ")
+
+	//terminal output controll
+	writer := uilive.New()
+	writer.Start()
+
 	for {
 
 		userSelection, err := strconv.Atoi(selection)
@@ -33,4 +41,6 @@ func RunGame() {
 		}
 
 	}
+
+	writer.Stop()
 }
