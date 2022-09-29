@@ -3,7 +3,7 @@ package skills
 import (
 	"fmt"
 
-	"github.com/nyhwbh/bigingame/character/status"
+	"functionalGame/character/status"
 )
 
 //종족별 스킬 사용

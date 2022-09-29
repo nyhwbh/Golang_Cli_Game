@@ -5,10 +5,10 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/nyhwbh/bigingame/character/skills"
-	"github.com/nyhwbh/bigingame/character/status"
-	"github.com/nyhwbh/bigingame/character/weapons"
-	"github.com/nyhwbh/bigingame/monster"
+	"functionalGame/character/skills"
+	"functionalGame/character/status"
+	"functionalGame/character/weapons"
+	"functionalGame/monster"
 )
 
 // 전투 선택시 실행

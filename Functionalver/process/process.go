@@ -3,9 +3,9 @@ package process
 import (
 	"fmt"
 
-	"github.com/nyhwbh/bigingame/battles"
-	"github.com/nyhwbh/bigingame/character/status"
-	"github.com/nyhwbh/bigingame/character/weapons"
+	"functionalGame/battles"
+	"functionalGame/character/status"
+	"functionalGame/character/weapons"
 )
 
 // 캐릭터 생성시 종족 선택

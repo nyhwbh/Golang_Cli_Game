@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 
-	"github.com/nyhwbh/learn_go/cli_game/Functionalver/character/skills"
-	"github.com/nyhwbh/learn_go/cli_game/Functionalver/character/status"
-	"github.com/nyhwbh/learn_go/cli_game/Functionalver/process"
+	"functionalGame/character/skills"
+	"functionalGame/character/status"
+	"functionalGame/process"
 )
 
 func main() {
