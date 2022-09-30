@@ -75,15 +75,16 @@ func (c *CharacterStatus) SetWeapon(selection int) {
 			c.battleAttackPoint = c.basicAttackPoint
 			c.battleAttackSpeed = c.basicAttackSpeed
 		case 2:
-			c.battleAttackPoint = int(float64(c.battleAttackPoint) * 1.10)
+			c.battleAttackPoint = int(float64(c.basicAttackPoint) * 1.10)
 			c.battleAttackSpeed = int(float64(c.basicAttackSpeed) * 0.95)
 		case 3:
-			c.battleAttackPoint = int(float64(c.battleAttackPoint) * 1.2)
+			c.battleAttackPoint = int(float64(c.basicAttackPoint) * 1.2)
 			c.battleAttackSpeed = int(float64(c.basicAttackSpeed) * 0.9)
 		}
 	}
 }
 
+//케릭터 상태 출력
 func (c *CharacterStatus) PrintCharterStatus() {
-	fmt.Printf("Lv: %d HP: %d / %d MP: %d / %d ATK: %d DEF: %d ATKS: %d", c.level, c.healthPoint, c.maxHealthPoint, c.magicPoint, c.maxMagicPoint, c.battleAttackPoint, c.battleDefencePoint, c.battleAttackSpeed)
+	fmt.Printf("Lv: %d HP: %d / %d MP: %d / %d ATK: %d DEF: %d ATKS: %d \n", c.level, c.healthPoint, c.maxHealthPoint, c.magicPoint, c.maxMagicPoint, c.battleAttackPoint, c.battleDefencePoint, c.battleAttackSpeed)
 }

@@ -6,7 +6,6 @@ import (
 
 	"cligame/app/component"
 
-	"github.com/gosuri/uilive"
 	. "github.com/logrusorgru/aurora"
 )
 
@@ -17,10 +16,6 @@ func RunGame() {
 	fmt.Printf("게임을 시작하시겠습니까? (1.Yes/2.No)  ")
 	fmt.Scanln(&selection)
 	fmt.Println(" ")
-
-	//terminal output controll
-	writer := uilive.New()
-	writer.Start()
 
 	for {
 
@@ -43,11 +38,11 @@ func RunGame() {
 
 			char.SetSpecies(userSelection)
 
+			char.PrintCharterStatus()
+
 			//무기 선택
 			shortExplainWeapons(userSelection)
 			fmt.Scanln(&selection)
-
-			char.PrintCharterStatus()
 
 			userSelection = checkSelection(selection, 3)
 			char.SetWeapon(userSelection)
@@ -64,7 +59,6 @@ func RunGame() {
 		}
 	}
 
-	writer.Stop()
 }
 
 func checkSelection(selection string, lastNum int) int {
