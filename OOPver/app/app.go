@@ -13,7 +13,7 @@ func RunGame() {
 
 	selection := ""
 
-	fmt.Printf("게임을 시작하시겠습니까? (1.Yes/2.No)  ")
+	fmt.Printf("게임을 시작하시겠습니까? (1.예/2.아니요)  ")
 	fmt.Scanln(&selection)
 	fmt.Println(" ")
 
@@ -25,30 +25,33 @@ func RunGame() {
 			fmt.Println(Bold("게임을 시작합니다."))
 
 			//캐릭터 생성
-			char := component.CharacterStatus{}
+			process := component.Process{}
 
-			char.BasicSetup()
-			fmt.Println("케릭터가 생성 되었습니다.")
+			process.CreateCharacter(selection)
 
-			//종족 선택
-			shortExplainSpecies()
-			fmt.Scanln(&selection)
+			// player.BasicSetup()
+			// fmt.Println("케릭터가 생성 되었습니다.")
 
-			userSelection = checkSelection(selection, 3)
+			// //종족 선택
+			// shortExplainSpecies()
+			// fmt.Scanln(&selection)
 
-			char.SetSpecies(userSelection)
+			// userSelection = checkSelection(selection, 3)
 
-			char.PrintCharterStatus()
+			// player.SetSpecies(userSelection)
 
-			//무기 선택
-			shortExplainWeapons(userSelection)
-			fmt.Scanln(&selection)
+			// player.PrintCharterStatus()
 
-			userSelection = checkSelection(selection, 3)
-			char.SetWeapon(userSelection)
-			char.PrintCharterStatus()
+			// //무기 선택
+			// shortExplainWeapons(userSelection)
+			// fmt.Scanln(&selection)
 
-			//스킬 생성
+			// userSelection = checkSelection(selection, 3)
+			// player.SetWeapon(userSelection)
+			// player.PrintCharterStatus()
+
+			// //스킬 생성
+			// player.CreateSkills()
 
 			//게임 진행
 
@@ -61,6 +64,7 @@ func RunGame() {
 
 }
 
+// 입력 확인하기
 func checkSelection(selection string, lastNum int) int {
 	returnValue := 0
 	for {
