@@ -15,6 +15,7 @@ type Monsters struct {
 	counterAttack  int
 }
 
+// ----------- 기본 설정 함수 ----------- //
 // 몬스터 생성
 func (m *Monsters) CreateMoster() {
 	timeSource := rand.NewSource(time.Now().UnixNano())
@@ -27,6 +28,13 @@ func (m *Monsters) CreateMoster() {
 	m.counterAttack = 30
 }
 
+// ----------- 전투 관련 함수 ----------- //
+// 몬스터가 공격 받음
+func (m *Monsters) MonsterAttacked(damage int) {
+	m.healthPoint -= damage
+}
+
+// ----------- 출력 함수 ----------- //
 // 몬스터 상태창 출력
 func (m *Monsters) PrintMonsterStatus() {
 	fmt.Printf("[ Monster Status  HP : %d/%d ATK : %d DEF : %d ]\n", m.healthPoint, m.maxHealthPoint, m.attackPower, m.depensivePower)
