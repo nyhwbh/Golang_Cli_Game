@@ -18,7 +18,7 @@ func FightWithMonster(c *status.CharacterStatus, gameSelection *int, species int
 	monster.CreateMonster(&newMonster)
 	monster.PrintMonsterStatus(&newMonster)
 	//몬스터와 전투 시작
-	battleCharacterMonset(c, &newMonster, gameSelection, species, weapon)
+	battleCharacterMonster(c, &newMonster, gameSelection, species, weapon)
 }
 
 // 회복선택시 안내메세지
@@ -28,7 +28,7 @@ func TakeRest(c *status.CharacterStatus) {
 }
 
 // 몬스터와 전투
-func battleCharacterMonset(c *status.CharacterStatus, m *monster.Monsters, gameSelection *int, species int, weapon int) {
+func battleCharacterMonster(c *status.CharacterStatus, m *monster.Monsters, gameSelection *int, species int, weapon int) {
 	check_hp := false
 
 	// 캐릭터의 체력, 레벨, 공격력, 공격속도, 방어력, 추가회피율 가져오기
