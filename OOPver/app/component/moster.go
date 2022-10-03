@@ -10,7 +10,7 @@ type Monsters struct {
 	healthPoint    int
 	maxHealthPoint int
 	attackPower    int
-	attackSpeed    float64
+	attackSpeed    int
 	depensivePower int
 	counterAttack  int
 }
@@ -37,5 +37,5 @@ func (m *Monsters) MonsterAttacked(damage int) {
 // ----------- 출력 함수 ----------- //
 // 몬스터 상태창 출력
 func (m *Monsters) PrintMonsterStatus() {
-	fmt.Printf("[ Monster Status  HP : %d/%d ATK : %d DEF : %d ]\n", m.healthPoint, m.maxHealthPoint, m.attackPower, m.depensivePower)
+	fmt.Printf("[ Monster  HP : %d/%d ATK : %d DEF : %d ]\n", m.healthPoint, m.maxHealthPoint, m.attackPower, m.depensivePower)
 }
