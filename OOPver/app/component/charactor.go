@@ -14,8 +14,10 @@ type CharacterStatus struct {
 	magicPoint           int
 	maxMagicPoint        int
 	basicAttackPower     int
+	weaponAttackPower    int
 	battleAttackPower    int
 	basicAttackSpeed     int
+	weaponAttackSpeed    int
 	battleAttackSpeed    int
 	basicDefensivePower  int
 	battleDefensivePower int
@@ -37,11 +39,13 @@ func (c *CharacterStatus) BasicSetup() {
 	c.magicPoint = c.maxMagicPoint
 	c.basicAttackPower = random.Intn(10) + 20
 	c.battleAttackPower = c.basicAttackPower
+	c.weaponAttackPower = c.basicAttackPower
 	c.basicDefensivePower = random.Intn(10) + 10
 	c.battleDefensivePower = c.basicDefensivePower
 	c.basicAvoid = 30
 	c.battleAvoid = c.basicAvoid
 	c.basicAttackSpeed = 1000
+	c.weaponAttackSpeed = c.basicAttackSpeed
 	c.battleAttackSpeed = c.basicAttackSpeed
 }
 
@@ -56,32 +60,32 @@ func (c *CharacterStatus) SetWeapon(selection int) {
 	case 1:
 		switch selection {
 		case 1:
-			c.battleAttackPower = c.basicAttackPower
+			c.weaponAttackPower = c.basicAttackPower
 		case 2:
-			c.battleAttackPower = int(float64(c.basicAttackPower) * 1.05)
+			c.weaponAttackPower = int(float64(c.basicAttackPower) * 1.05)
 		case 3:
-			c.battleAttackPower = int(float64(c.basicAttackPower) * 1.1)
+			c.weaponAttackPower = int(float64(c.basicAttackPower) * 1.1)
 		}
 	case 2:
 		switch selection {
 		case 1:
-			c.battleAttackSpeed = c.basicAttackSpeed
+			c.weaponAttackSpeed = c.basicAttackSpeed
 		case 2:
-			c.battleAttackSpeed = int(float64(c.basicAttackSpeed) * 1.05)
+			c.weaponAttackSpeed = int(float64(c.basicAttackSpeed) * 0.95)
 		case 3:
-			c.battleAttackSpeed = int(float64(c.basicAttackSpeed) * 1.1)
+			c.weaponAttackSpeed = int(float64(c.basicAttackSpeed) * 0.9)
 		}
 	case 3:
 		switch selection {
 		case 1:
-			c.battleAttackPower = c.basicAttackPower
-			c.battleAttackSpeed = c.basicAttackSpeed
+			c.weaponAttackPower = c.basicAttackPower
+			c.weaponAttackSpeed = c.basicAttackSpeed
 		case 2:
-			c.battleAttackPower = int(float64(c.basicAttackPower) * 1.10)
-			c.battleAttackSpeed = int(float64(c.basicAttackSpeed) * 0.95)
+			c.weaponAttackPower = int(float64(c.basicAttackPower) * 1.10)
+			c.weaponAttackSpeed = int(float64(c.basicAttackSpeed) * 1.05)
 		case 3:
-			c.battleAttackPower = int(float64(c.basicAttackPower) * 1.2)
-			c.battleAttackSpeed = int(float64(c.basicAttackSpeed) * 0.9)
+			c.weaponAttackPower = int(float64(c.basicAttackPower) * 1.2)
+			c.weaponAttackSpeed = int(float64(c.basicAttackSpeed) * 1.1)
 		}
 	}
 }
@@ -164,7 +168,7 @@ func (c *CharacterStatus) SkillHeal() {
 }
 
 func (c *CharacterStatus) SkillSteam() {
-	c.battleAttackPower = int(float64(c.battleAttackPower) * 1.2)
+	c.battleAttackPower = int(float64(c.weaponAttackPower) * 1.2)
 }
 
 func (c *CharacterStatus) SkillGuard() {
@@ -181,24 +185,24 @@ func (c *CharacterStatus) SkillElusion() {
 
 func (c *CharacterStatus) SkillRapid() {
 	// 1분동안
-	c.battleAttackSpeed = int(float64(c.battleAttackSpeed) / 5)
+	c.battleAttackSpeed = int(float64(c.weaponAttackSpeed) / 5)
 }
 
 func (c *CharacterStatus) SkillAnger() {
-	c.battleAttackPower = int(float64(c.battleAttackPower) * 1.5)
+	c.battleAttackPower = int(float64(c.weaponAttackPower) * 1.5)
 	c.battleDefensivePower = int(float64(c.basicDefensivePower) * 0.9)
 }
 
 func (c *CharacterStatus) SkillFrenzy() {
 	// 1분동안
-	c.battleAttackPower = int(float64(c.battleAttackPower) * 5)
+	c.battleAttackPower = int(float64(c.weaponAttackPower) * 5)
 
 }
 
 // ----------- 출력 함수 ----------- //
 //케릭터 상태 출력
 func (c *CharacterStatus) PrintCharterStatus() {
-	fmt.Printf("Lv: %d HP: %d / %d MP: %d / %d ATK: %d DEF: %d\n", c.level, c.healthPoint, c.maxHealthPoint, c.magicPoint, c.maxMagicPoint, c.battleAttackPower, c.battleDefensivePower)
+	fmt.Printf("Player Lv: %d HP: %d / %d MP: %d / %d ATK: %d DEF: %d\n", c.level, c.healthPoint, c.maxHealthPoint, c.magicPoint, c.maxMagicPoint, c.battleAttackPower, c.battleDefensivePower)
 }
 
 // 스킬 출력
