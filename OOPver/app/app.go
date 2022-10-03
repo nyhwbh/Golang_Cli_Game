@@ -28,6 +28,8 @@ func RunGame() {
 
 			process.CreateCharacter(selection)
 
+			process.GameProcess()
+
 			break
 		} else if userSelection == 2 {
 			fmt.Println(Bold("게임을 종료합니다."))

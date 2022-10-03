@@ -3,7 +3,6 @@ package component
 import (
 	"fmt"
 	"strconv"
-	"time"
 
 	"github.com/gosuri/uilive"
 	. "github.com/logrusorgru/aurora"
@@ -16,12 +15,11 @@ type Process struct {
 
 // 캐릭터 생성
 func (p *Process) CreateCharacter(selection string) {
-	newCharacter := p.player
 
 	writer := uilive.New()
 	writer.Start()
 
-	newCharacter.BasicSetup()
+	p.player.BasicSetup()
 	fmt.Println(Bold("케릭터를 생성합니다."))
 
 	//종족 선택
@@ -34,7 +32,7 @@ func (p *Process) CreateCharacter(selection string) {
 
 	userSelection := CheckSelection(selection, 3)
 
-	newCharacter.SetSpecies(userSelection)
+	p.player.SetSpecies(userSelection)
 
 	//무기 선택
 	switch userSelection {
@@ -60,37 +58,48 @@ func (p *Process) CreateCharacter(selection string) {
 	fmt.Scanln(&selection)
 
 	userSelection = CheckSelection(selection, 3)
-	newCharacter.SetWeapon(userSelection)
+	p.player.SetWeapon(userSelection)
 
 	//스킬 생성
-	newCharacter.CreateSkills()
+	p.player.CreateSkills()
 
 	fmt.Fprintf(writer, "%s \n", Bold("케릭터가 생성 되었습니다."))
-	fmt.Fprintf(writer.Newline(), "종족 : %s \n", stringSpecies(newCharacter.species))
+	fmt.Fprintf(writer.Newline(), "종족 : %s \n", stringSpecies(p.player.species))
 	fmt.Fprintf(writer.Newline(), "스테이터스 : ")
 	fmt.Fprintf(writer.Newline(), "Lv: %d HP: %d / %d MP: %d / %d ATK: %d DEF: %d\n",
-		newCharacter.level,
-		newCharacter.healthPoint, newCharacter.maxHealthPoint,
-		newCharacter.magicPoint, newCharacter.maxMagicPoint,
-		newCharacter.battleAttackPower,
-		newCharacter.battleDefensivePower)
+		p.player.level,
+		p.player.healthPoint, p.player.maxHealthPoint,
+		p.player.magicPoint, p.player.maxMagicPoint,
+		p.player.battleAttackPower,
+		p.player.battleDefensivePower)
 	fmt.Fprintf(writer.Newline(), " \n")
 
 	writer.Stop()
 }
 
 // 게임 진행
-func (p *Process) GameProcess(selection string) {
+func (p *Process) GameProcess() {
 	if p.player.level == 99 {
 		fmt.Println("이제 궁극스킬을 사용할 수 있습니다.")
 	}
 
-	fmt.Printf("무엇을 하시겠습니까? (1.전투 2.휴식 3.무기변경 4.게임종료) : ")
-	fmt.Scanln(selection)
-	userSelection := CheckSelection(selection, 4)
 	for {
+		selection := ""
+		fmt.Printf("무엇을 하시겠습니까? (1.전투 2.휴식 3.무기변경 4.게임종료) : ")
+		fmt.Scanln(&selection)
+		userSelection := CheckSelection(selection, 4)
 		if userSelection == 1 {
 			p.battleWithMonster()
+			if p.checkHealthPoint() {
+				if p.player.healthPoint <= 0 {
+					fmt.Println("캐릭터가 사망하였습니다.")
+					fmt.Println(Bold("Game over"))
+					break
+				} else {
+					fmt.Println("전투에서 승리하였습니다. 캐릭터 레벨이 상승합니다.")
+					p.player.CharacterLevelUp()
+				}
+			}
 		} else if userSelection == 2 {
 			p.takeCharacterRest()
 		} else if userSelection == 3 {
@@ -101,86 +110,17 @@ func (p *Process) GameProcess(selection string) {
 
 			p.player.SetWeapon(userSelection)
 		} else if userSelection == 4 {
+			fmt.Println("게임을 종료합니다.")
 			break
 		}
 	}
-}
-
-// 몬스터와 전투
-func (p *Process) battleWithMonster() {
-	//몬스터 생성
-	p.monster.CreateMoster()
-
-	fmt.Println("몬스터와 전투를 시작합니다.")
-	p.player.PrintCharterStatus()
-	p.monster.PrintMonsterStatus()
-	// 스킬사용
-
-	// 전투
-	p.fightWithMoster()
-
-}
-
-// 케릭터와 몬스터 공격속도에 따른 게임 진행
-func (p *Process) fightWithMoster() {
-	characterAttack, monsterAttack := 1, 1
-	fightTime := 0
-	for {
-		//10 Microsecond 마다 전두시간 증가 -> 공격 속도에 따른 딜레이 주기
-		time.Sleep(time.Microsecond * 10)
-		fightTime += 10
-		// 케릭터와 몬스터가 동시에 공격
-		if fightTime == (p.player.battleAttackSpeed*characterAttack) &&
-			fightTime == (p.monster.attackSpeed*monsterAttack) {
-			characterAttack++
-			//케릭터 공격 함수
-			if p.checkHealthPoint() {
-				break
-			}
-			monsterAttack++
-			// 몬스터 공격함수
-			if p.checkHealthPoint() {
-				break
-			}
-			// 케릭터가 몬스터를 공격
-		} else if fightTime == (p.player.battleAttackSpeed * characterAttack) {
-			characterAttack++
-			// 케릭터 공격함수
-			if p.checkHealthPoint() {
-				break
-			}
-			// 몬스터가 케릭터를 공격
-		} else if fightTime == (p.monster.attackSpeed * monsterAttack) {
-			monsterAttack++
-			// 몬스터 공격함수
-			if p.checkHealthPoint() {
-				break
-			}
-		}
-	}
-}
-
-// 케릭터 혹은 몬스터가 죽었는지 확인하는 함수
-func (p *Process) checkHealthPoint() bool {
-	if p.player.healthPoint <= 0 || p.monster.healthPoint <= 0 {
-		if p.player.healthPoint <= 0 {
-			fmt.Println("캐릭터가 사망하였습니다.")
-			fmt.Println("Game over")
-			return true
-		} else if p.monster.healthPoint <= 0 {
-			fmt.Println("전투에서 승리하였습니다. 케릭터의 레벨이 상승합니다.")
-			//레벨업 함수
-			return true
-		}
-	}
-	return false
 }
 
 // 휴식
 func (p *Process) takeCharacterRest() {
 	p.player.healthPoint = p.player.maxHealthPoint
 	p.player.magicPoint = p.player.maxMagicPoint
-	fmt.Println(Bold("휴식을 취하였습니다. 모든 HP와 MP가 회복됩니다."))
+	fmt.Println(Bold(Green("휴식을 취하였습니다. 모든 HP와 MP가 회복됩니다.")))
 }
 
 // 입력 확인하기

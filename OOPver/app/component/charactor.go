@@ -38,15 +38,15 @@ func (c *CharacterStatus) BasicSetup() {
 	c.maxMagicPoint = random.Intn(50) + 50
 	c.magicPoint = c.maxMagicPoint
 	c.basicAttackPower = random.Intn(10) + 20
-	c.battleAttackPower = c.basicAttackPower
 	c.weaponAttackPower = c.basicAttackPower
+	c.battleAttackPower = c.weaponAttackPower
 	c.basicDefensivePower = random.Intn(10) + 10
 	c.battleDefensivePower = c.basicDefensivePower
 	c.basicAvoid = 30
 	c.battleAvoid = c.basicAvoid
 	c.basicAttackSpeed = 1000
 	c.weaponAttackSpeed = c.basicAttackSpeed
-	c.battleAttackSpeed = c.basicAttackSpeed
+	c.battleAttackSpeed = c.weaponAttackSpeed
 }
 
 // 종족 설정
@@ -61,31 +61,42 @@ func (c *CharacterStatus) SetWeapon(selection int) {
 		switch selection {
 		case 1:
 			c.weaponAttackPower = c.basicAttackPower
+			c.battleAttackPower = c.weaponAttackPower
 		case 2:
 			c.weaponAttackPower = int(float64(c.basicAttackPower) * 1.05)
+			c.battleAttackPower = c.weaponAttackPower
 		case 3:
 			c.weaponAttackPower = int(float64(c.basicAttackPower) * 1.1)
+			c.battleAttackPower = c.weaponAttackPower
 		}
 	case 2:
 		switch selection {
 		case 1:
 			c.weaponAttackSpeed = c.basicAttackSpeed
+			c.battleAttackSpeed = c.weaponAttackSpeed
 		case 2:
 			c.weaponAttackSpeed = int(float64(c.basicAttackSpeed) * 0.95)
+			c.battleAttackSpeed = c.weaponAttackSpeed
 		case 3:
 			c.weaponAttackSpeed = int(float64(c.basicAttackSpeed) * 0.9)
+			c.battleAttackSpeed = c.weaponAttackSpeed
 		}
 	case 3:
 		switch selection {
 		case 1:
 			c.weaponAttackPower = c.basicAttackPower
+			c.battleAttackPower = c.weaponAttackPower
 			c.weaponAttackSpeed = c.basicAttackSpeed
 		case 2:
 			c.weaponAttackPower = int(float64(c.basicAttackPower) * 1.10)
+			c.battleAttackPower = c.weaponAttackPower
 			c.weaponAttackSpeed = int(float64(c.basicAttackSpeed) * 1.05)
+			c.battleAttackSpeed = c.weaponAttackSpeed
 		case 3:
 			c.weaponAttackPower = int(float64(c.basicAttackPower) * 1.2)
+			c.battleAttackPower = c.weaponAttackPower
 			c.weaponAttackSpeed = int(float64(c.basicAttackSpeed) * 1.1)
+			c.battleAttackSpeed = c.weaponAttackSpeed
 		}
 	}
 }
@@ -108,6 +119,11 @@ func (c *CharacterStatus) CreateSkills() {
 // 케릭터가 공격 받음
 func (c *CharacterStatus) CharacterAttacked(damage int) {
 	c.healthPoint -= damage
+}
+
+// 레벨업
+func (c *CharacterStatus) CharacterLevelUp() {
+	c.level++
 }
 
 // ----------- 스킬 사용 함수 ----------- //
@@ -208,8 +224,8 @@ func (c *CharacterStatus) PrintCharterStatus() {
 // 스킬 출력
 func (c *CharacterStatus) PrintSkills() {
 	if c.level < 99 {
-		fmt.Println(c.characterSkills[0:3])
+		fmt.Printf("%s", c.characterSkills[0:3])
 	} else {
-		fmt.Println(c.characterSkills)
+		fmt.Printf("%s", c.characterSkills)
 	}
 }
