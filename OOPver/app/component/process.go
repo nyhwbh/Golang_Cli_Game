@@ -3,6 +3,7 @@ package component
 import (
 	"fmt"
 	"strconv"
+	"time"
 
 	"github.com/gosuri/uilive"
 	. "github.com/logrusorgru/aurora"
@@ -89,7 +90,7 @@ func (p *Process) GameProcess(selection string) {
 	userSelection := CheckSelection(selection, 4)
 	for {
 		if userSelection == 1 {
-			//fightWithMoster
+			p.battleWithMonster()
 		} else if userSelection == 2 {
 			p.takeCharacterRest()
 		} else if userSelection == 3 {
@@ -111,10 +112,68 @@ func (p *Process) battleWithMonster() {
 	p.monster.CreateMoster()
 
 	fmt.Println("몬스터와 전투를 시작합니다.")
-	// 케릭터 스테이터스
-	// 몬스터 스테이터스
-	// 케릭터 or 몬스터의 동작
-	//
+	p.player.PrintCharterStatus()
+	p.monster.PrintMonsterStatus()
+	// 스킬사용
+
+	// 전투
+	p.fightWithMoster()
+
+}
+
+// 케릭터와 몬스터 공격속도에 따른 게임 진행
+func (p *Process) fightWithMoster() {
+	characterAttack, monsterAttack := 1, 1
+	fightTime := 0
+	for {
+		//10 Microsecond 마다 전두시간 증가 -> 공격 속도에 따른 딜레이 주기
+		time.Sleep(time.Microsecond * 10)
+		fightTime += 10
+		// 케릭터와 몬스터가 동시에 공격
+		if fightTime == (p.player.battleAttackSpeed*characterAttack) &&
+			fightTime == (p.monster.attackSpeed*monsterAttack) {
+			characterAttack++
+			//케릭터 공격 함수
+			if p.checkHealthPoint() {
+				break
+			}
+			monsterAttack++
+			// 몬스터 공격함수
+			if p.checkHealthPoint() {
+				break
+			}
+			// 케릭터가 몬스터를 공격
+		} else if fightTime == (p.player.battleAttackSpeed * characterAttack) {
+			characterAttack++
+			// 케릭터 공격함수
+			if p.checkHealthPoint() {
+				break
+			}
+			// 몬스터가 케릭터를 공격
+		} else if fightTime == (p.monster.attackSpeed * monsterAttack) {
+			monsterAttack++
+			// 몬스터 공격함수
+			if p.checkHealthPoint() {
+				break
+			}
+		}
+	}
+}
+
+// 케릭터 혹은 몬스터가 죽었는지 확인하는 함수
+func (p *Process) checkHealthPoint() bool {
+	if p.player.healthPoint <= 0 || p.monster.healthPoint <= 0 {
+		if p.player.healthPoint <= 0 {
+			fmt.Println("캐릭터가 사망하였습니다.")
+			fmt.Println("Game over")
+			return true
+		} else if p.monster.healthPoint <= 0 {
+			fmt.Println("전투에서 승리하였습니다. 케릭터의 레벨이 상승합니다.")
+			//레벨업 함수
+			return true
+		}
+	}
+	return false
 }
 
 // 휴식
