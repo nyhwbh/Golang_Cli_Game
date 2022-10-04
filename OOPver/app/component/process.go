@@ -90,15 +90,13 @@ func (p *Process) GameProcess() {
 		userSelection := CheckSelection(selection, 4)
 		if userSelection == 1 {
 			p.battleWithMonster()
-			if p.checkHealthPoint() {
-				if p.player.healthPoint <= 0 {
-					fmt.Println("캐릭터가 사망하였습니다.")
-					fmt.Println(Bold("Game over"))
-					break
-				} else {
-					fmt.Println("전투에서 승리하였습니다. 캐릭터 레벨이 상승합니다.")
-					p.player.CharacterLevelUp()
-				}
+			if p.player.healthPoint <= 0 {
+				fmt.Println("캐릭터가 사망하였습니다.")
+				fmt.Printf("Game over \n\n")
+				break
+			} else {
+				fmt.Printf("전투에서 승리하였습니다. 캐릭터 레벨이 상승합니다. \n\n")
+				p.player.CharacterLevelUp()
 			}
 		} else if userSelection == 2 {
 			p.takeCharacterRest()
@@ -120,7 +118,7 @@ func (p *Process) GameProcess() {
 func (p *Process) takeCharacterRest() {
 	p.player.healthPoint = p.player.maxHealthPoint
 	p.player.magicPoint = p.player.maxMagicPoint
-	fmt.Println(Bold(Green("휴식을 취하였습니다. 모든 HP와 MP가 회복됩니다.")))
+	fmt.Println(Bold(Green("\n 휴식을 취하였습니다. 모든 HP와 MP가 회복됩니다. \n")))
 }
 
 // 입력 확인하기
