@@ -15,6 +15,8 @@ https://replit.com/@nyhwbh/bigingame#main.go
 ________________________________________________________________________________
 OOPver 1.0- 객채형으로 제작한 CLI게임입니다.
 
-부족하지만 TDD를 같이 진행하면서 제작한 게임입니다.
+스킬 사용을 제외한 모든 기능을 구현하였습니다.
 
-Go언어가 사용가능한 IDE에서 start.go를 실행시키면 게임이 실행됩니다.
+Go언어가 사용가능한 IDE에서 main.go를 실행시키면 게임이 실행됩니다.
+
+https://replit.com/@nyhwbh/OOPver-CLIgame#main.go
