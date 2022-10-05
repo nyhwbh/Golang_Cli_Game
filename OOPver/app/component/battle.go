@@ -32,7 +32,7 @@ func (p *Process) fightWithMoster() {
 	writer.Start()
 	for {
 		//10 Microsecond 마다 전두시간 증가 -> 공격 속도에 따른 딜레이 주기
-		time.Sleep(time.Microsecond * 10)
+		time.Sleep(time.Millisecond * 10)
 		fightTime += 10
 		playerDamage := p.player.battleAttackPower - p.monster.depensivePower
 		monsterDamage := p.monster.attackPower - p.player.battleDefensivePower
